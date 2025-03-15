@@ -26,3 +26,6 @@ fov = 60.0
 script = ExtResource("5_7jktm")
 
 [node name="UI" parent="." instance=ExtResource("4_fc0e3")]
+
+[editable path="UI"]
+[editable path="UI/MainMenu"]
