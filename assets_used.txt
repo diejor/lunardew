@@ -1,1 +1,1 @@
-button_click.wav - generated from ChipTone
+button_click.wav, player_jump.wav, reward.wav - generated from ChipTone

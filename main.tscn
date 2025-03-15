@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://du2owvgj2hxwk"]
+
+[ext_resource type="PackedScene" uid="uid://dt3drmupjo2oe" path="res://src/levels/level_1.tscn" id="1_ig7tw"]
+
+[node name="Main" type="Node"]
+
+[node name="Level1" parent="." instance=ExtResource("1_ig7tw")]
+
+[node name="MeshInstance3D" parent="Level1/RigidBody3D" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.70942, 0)
+
+[node name="Player" parent="Level1" index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9455, 4.82358, -1.0966)
+
+[editable path="Level1"]

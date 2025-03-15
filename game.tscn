@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://cusgjnlcnhrsl"]
+
+[ext_resource type="Script" uid="uid://h3nrticta27b" path="res://game.gd" id="1_ryrav"]
+[ext_resource type="PackedScene" uid="uid://1mgi5w8s5qis" path="res://src/ui/ui.tscn" id="4_fc0e3"]
+[ext_resource type="Script" uid="uid://bku06nnwpk2hw" path="res://src/player/camera3rd.gd" id="5_7jktm"]
+
+[node name="Game" type="Node"]
+script = ExtResource("1_ryrav")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(0.712332, 0, 0.701842, 0, 1, 0, -0.701842, 0, 0.712332, 6.3874, 9.57759, 27.361)
+fov = 60.0
+script = ExtResource("5_7jktm")
+
+[node name="UI" parent="." instance=ExtResource("4_fc0e3")]

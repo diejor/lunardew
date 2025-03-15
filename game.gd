@@ -1,4 +1,3 @@
-extends Node3D
+extends Node
 
-func _ready() -> void:
-	UI.player_ui.play("level1_song")
+@onready var UI: CanvasLayer = $UI

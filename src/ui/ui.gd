@@ -12,11 +12,12 @@ signal ButtonPressed()
 
 var height:float  = 648
 var width:float = 1152
-@onready var player_ui: AnimationPlayer = $PlayerUI
+@onready var sfx_player: AnimationPlayer = $SFXPlayer
+@onready var songs_player: AnimationPlayer = $SongsPlayer
 
 func _ready() -> void:
 	ButtonPressed.connect(_on_button_pressed)
-	player_ui.play("main_theme")
+	songs_player.play("main_theme")
 
 func _on_button_pressed() -> void:
-	player_ui.play("button_clicked")
+	sfx_player.play("button_clicked")

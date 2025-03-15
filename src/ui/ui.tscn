@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://1mgi5w8s5qis"]
+[gd_scene load_steps=20 format=3 uid="uid://1mgi5w8s5qis"]
 
 [ext_resource type="Script" uid="uid://pfogwsgb4x42" path="res://src/ui/ui.gd" id="1_u7n8c"]
 [ext_resource type="PackedScene" uid="uid://2ncdnl1mq64u" path="res://src/ui/menus/main_menu/main_menu.tscn" id="2_f5cxw"]
@@ -44,45 +44,6 @@ border_color = Color(0, 0, 0, 1)
 corner_radius_top_right = 30
 corner_radius_bottom_right = 30
 
-[sub_resource type="Animation" id="Animation_g5kmx"]
-resource_name = "button_clicked"
-length = 0.22
-tracks/0/type = "audio"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("AudioServerUI")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"clips": [{
-"end_offset": 0.0,
-"start_offset": 0.01,
-"stream": ExtResource("3_aac20")
-}],
-"times": PackedFloat32Array(0)
-}
-tracks/0/use_blend = true
-
-[sub_resource type="Animation" id="Animation_gucsq"]
-resource_name = "level1_song"
-length = 53.0
-loop_mode = 1
-tracks/0/type = "audio"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("AudioServerUI")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"clips": [{
-"end_offset": 0.0,
-"start_offset": 0.0,
-"stream": ExtResource("4_8wxmc")
-}],
-"times": PackedFloat32Array(0)
-}
-tracks/0/use_blend = true
-
 [sub_resource type="Animation" id="Animation_cx7gx"]
 resource_name = "level2_song"
 length = 59.0
@@ -90,7 +51,7 @@ loop_mode = 1
 tracks/0/type = "audio"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("AudioServerUI")
+tracks/0/path = NodePath("Songs")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -110,7 +71,7 @@ loop_mode = 1
 tracks/0/type = "audio"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("AudioServerUI")
+tracks/0/path = NodePath("Songs")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -130,7 +91,7 @@ loop_mode = 1
 tracks/0/type = "audio"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("AudioServerUI")
+tracks/0/path = NodePath("Songs")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -143,22 +104,97 @@ tracks/0/keys = {
 }
 tracks/0/use_blend = true
 
+[sub_resource type="Animation" id="Animation_gucsq"]
+resource_name = "level1_song"
+length = 53.0
+loop_mode = 1
+tracks/0/type = "audio"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Songs")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("4_8wxmc")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/0/use_blend = true
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0dwhk"]
 _data = {
-&"button_clicked": SubResource("Animation_g5kmx"),
 &"level1_song": SubResource("Animation_gucsq"),
 &"level2_song": SubResource("Animation_cx7gx"),
 &"level3_song": SubResource("Animation_t30i7"),
 &"main_theme": SubResource("Animation_1mh4k")
 }
 
+[sub_resource type="Animation" id="Animation_l5owu"]
+resource_name = "button_clicked"
+length = 0.22
+tracks/0/type = "audio"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MenuSFX")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.01,
+"stream": ExtResource("3_aac20")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/0/use_blend = true
+
+[sub_resource type="Animation" id="Animation_j4riv"]
+resource_name = "transition_game"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MainMenu/ContentPanel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.112657, 0.96594),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_wwjrv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MainMenu/ContentPanel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_j4riv"]
+_data = {
+&"RESET": SubResource("Animation_wwjrv"),
+&"button_clicked": SubResource("Animation_l5owu"),
+&"transition_game": SubResource("Animation_j4riv")
+}
+
 [node name="UI" type="CanvasLayer"]
 script = ExtResource("1_u7n8c")
 
 [node name="MainMenu" parent="." instance=ExtResource("2_f5cxw")]
-visible = false
 
 [node name="HUD" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -235,11 +271,19 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="PlayerUI" type="AnimationPlayer" parent="."]
+[node name="SongsPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_0dwhk")
 }
 
-[node name="AudioServerUI" type="AudioStreamPlayer" parent="."]
+[node name="SFXPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_j4riv")
+}
+
+[node name="MenuSFX" type="AudioStreamPlayer" parent="."]
+
+[node name="Songs" type="AudioStreamPlayer" parent="."]
+bus = &"Songs"
 
 [editable path="MainMenu"]

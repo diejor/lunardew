@@ -1,8 +1,7 @@
-[gd_scene load_steps=20 format=3 uid="uid://dt3drmupjo2oe"]
+[gd_scene load_steps=19 format=3 uid="uid://dt3drmupjo2oe"]
 
 [ext_resource type="Script" uid="uid://d3k3pyi0allkk" path="res://src/planet/planetary_body.gd" id="1_7jktm"]
 [ext_resource type="Material" uid="uid://cle16r2v5m6bx" path="res://src/planet/material_planet.tres" id="1_fc0e3"]
-[ext_resource type="Script" uid="uid://doadntkqb2gyj" path="res://game.gd" id="1_ryrav"]
 [ext_resource type="PackedScene" uid="uid://cjjvxgn2axgb2" path="res://src/player/player.tscn" id="4_fc0e3"]
 [ext_resource type="Script" uid="uid://bku06nnwpk2hw" path="res://src/player/camera3rd.gd" id="5_7jktm"]
 
@@ -119,7 +118,6 @@ radial_segments = 4
 rings = 1
 
 [node name="Level1" type="Node3D"]
-script = ExtResource("1_ryrav")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_0xm2m")
@@ -142,7 +140,7 @@ shape = SubResource("SphereShape3D_7dm0k")
 mesh = SubResource("SphereMesh_ig7tw")
 
 [node name="Player" parent="." instance=ExtResource("4_fc0e3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.27897, 12.5456, 0.43331)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.60688, 6.38393, 1.96499)
 
 [node name="StarsParticles" type="GPUParticles3D" parent="."]
 material_override = SubResource("StandardMaterial3D_7jktm")
