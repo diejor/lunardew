@@ -1,0 +1,230 @@
+[gd_scene load_steps=18 format=3 uid="uid://cjjvxgn2axgb2"]
+
+[ext_resource type="Script" uid="uid://dwg15gpe1spw3" path="res://src/player/player_controller.gd" id="1_8afob"]
+[ext_resource type="AudioStream" uid="uid://cioq0phdpiefg" path="res://src/player/sfx/player_jump.wav" id="2_rxibo"]
+[ext_resource type="Script" uid="uid://bpnnmbbgsy1ra" path="res://addons/godot_state_charts/state_chart.gd" id="3_jiejy"]
+[ext_resource type="Script" uid="uid://d2frwrtcar1ga" path="res://addons/godot_state_charts/compound_state.gd" id="4_o822w"]
+[ext_resource type="Script" uid="uid://dievtw4ea6dt4" path="res://addons/godot_state_charts/atomic_state.gd" id="5_x42xx"]
+[ext_resource type="Script" uid="uid://d6qlb3u64wvs" path="res://addons/godot_state_charts/transition.gd" id="6_l271a"]
+[ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="7_o822w"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rxibo"]
+shading_mode = 0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_mf2ua"]
+emission_shape = 1
+emission_sphere_radius = 0.5
+gravity = Vector3(0, 0, 0)
+tangential_accel_min = -2.23517e-06
+tangential_accel_max = 0.499998
+scale_min = 0.5
+scale_max = 1.5
+turbulence_noise_strength = 20.0
+turbulence_noise_scale = 0.517
+collision_mode = 1
+collision_friction = 0.0
+collision_bounce = 0.5
+
+[sub_resource type="SphereMesh" id="SphereMesh_244u8"]
+radius = 0.05
+height = 0.1
+radial_segments = 4
+rings = 1
+
+[sub_resource type="Gradient" id="Gradient_8afob"]
+offsets = PackedFloat32Array(0.445714, 0.617143, 1)
+colors = PackedColorArray(0, 0, 0, 0.721569, 0, 0, 0, 0, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dovo2"]
+gradient = SubResource("Gradient_8afob")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_8afob"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0xm2m"]
+
+[sub_resource type="Animation" id="Animation_mf2ua"]
+resource_name = "jump"
+length = 0.41
+tracks/0/type = "audio"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SFX")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("2_rxibo")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/0/use_blend = true
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visuals/LittleClouds:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_o822w"]
+resource_name = "RESET"
+loop_mode = 1
+tracks/0/type = "audio"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SFX")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": [],
+"times": PackedFloat32Array()
+}
+tracks/0/use_blend = true
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visuals/LittleClouds:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_244u8"]
+_data = {
+&"RESET": SubResource("Animation_o822w"),
+&"jump": SubResource("Animation_mf2ua")
+}
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_8afob")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="LittleClouds" type="GPUParticles3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.989536, 0)
+material_override = SubResource("StandardMaterial3D_rxibo")
+cast_shadow = 0
+emitting = false
+amount = 64
+lifetime = 5.0
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_mf2ua")
+draw_pass_1 = SubResource("SphereMesh_244u8")
+
+[node name="Shadow" type="Decal" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.340324, 0)
+size = Vector3(1, 10, 1)
+texture_albedo = SubResource("GradientTexture2D_dovo2")
+upper_fade = 35.0555
+lower_fade = 1e-05
+distance_fade_enabled = true
+
+[node name="MeshPlaceholder" type="MeshInstance3D" parent="Visuals"]
+mesh = SubResource("CapsuleMesh_8afob")
+skeleton = NodePath("../../..")
+
+[node name="CollisionPlaceholder" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_0xm2m")
+
+[node name="PlanetViewer" type="VoxelViewer" parent="."]
+
+[node name="SFX" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.13252, 1.1858)
+
+[node name="CheckIfGround" type="RayCast3D" parent="."]
+target_position = Vector3(0, -1.5, 0)
+debug_shape_custom_color = Color(1, 0, 0, 1)
+debug_shape_thickness = 5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_244u8")
+}
+
+[node name="StateChart" type="Node" parent="."]
+script = ExtResource("3_jiejy")
+metadata/_custom_type_script = "uid://bpnnmbbgsy1ra"
+
+[node name="Root" type="Node" parent="StateChart"]
+script = ExtResource("4_o822w")
+initial_state = NodePath("Grounded")
+
+[node name="Grounded" type="Node" parent="StateChart/Root"]
+script = ExtResource("5_x42xx")
+
+[node name="OnJump" type="Node" parent="StateChart/Root/Grounded"]
+script = ExtResource("6_l271a")
+to = NodePath("../../Airbone/Jumping")
+event = &"jump"
+delay_in_seconds = "0.0"
+
+[node name="OnAirbone" type="Node" parent="StateChart/Root/Grounded"]
+script = ExtResource("6_l271a")
+to = NodePath("../../Airbone")
+event = &"airbone"
+delay_in_seconds = "0.0
+"
+
+[node name="Airbone" type="Node" parent="StateChart/Root"]
+script = ExtResource("4_o822w")
+initial_state = NodePath("CoyoteTime")
+
+[node name="OnGrounded" type="Node" parent="StateChart/Root/Airbone"]
+script = ExtResource("6_l271a")
+to = NodePath("../../Grounded")
+event = &"grounded"
+delay_in_seconds = "0.0"
+
+[node name="CoyoteTime" type="Node" parent="StateChart/Root/Airbone"]
+script = ExtResource("5_x42xx")
+
+[node name="OnJump" type="Node" parent="StateChart/Root/Airbone/CoyoteTime"]
+script = ExtResource("6_l271a")
+to = NodePath("../../Jumping")
+event = &"jump"
+delay_in_seconds = "0.0"
+
+[node name="OnExpiration" type="Node" parent="StateChart/Root/Airbone/CoyoteTime"]
+script = ExtResource("6_l271a")
+to = NodePath("../../CannotJump")
+delay_in_seconds = "0.3"
+
+[node name="Jumping" type="Node" parent="StateChart/Root/Airbone"]
+script = ExtResource("5_x42xx")
+
+[node name="JumpFinished" type="Node" parent="StateChart/Root/Airbone/Jumping"]
+script = ExtResource("6_l271a")
+to = NodePath("../..")
+event = &"jump_finished"
+delay_in_seconds = "0.0"
+
+[node name="CannotJump" type="Node" parent="StateChart/Root/Airbone"]
+script = ExtResource("5_x42xx")
+
+[node name="StateChartDebugger" parent="." instance=ExtResource("7_o822w")]
+offset_left = 969.0
+offset_top = 29.0
+offset_right = -27.0
+offset_bottom = -408.0
+initial_node_to_watch = NodePath("../StateChart")
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="state_physics_processing" from="StateChart/Root/Grounded" to="." method="_on_grounded_state_physics_processing"]
+[connection signal="state_physics_processing" from="StateChart/Root/Grounded" to="." method="_on_check_jump_grounded_state_physics_processing"]
+[connection signal="state_physics_processing" from="StateChart/Root/Airbone" to="." method="_on_airbone_state_physics_processing"]
+[connection signal="state_physics_processing" from="StateChart/Root/Airbone/CoyoteTime" to="." method="_on_check_jump_grounded_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/Airbone/Jumping" to="." method="_on_jumping_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/Root/Airbone/CannotJump" to="." method="_on_cannot_jump_state_physics_processing"]

@@ -1,0 +1,71 @@
+[gd_scene load_steps=4 format=3 uid="uid://2ncdnl1mq64u"]
+
+[ext_resource type="Script" uid="uid://cn62r2n3n1khk" path="res://src/ui/menus/main_menu/main_menu.gd" id="1_hjh2c"]
+[ext_resource type="Theme" uid="uid://b46mwhxm8j7cu" path="res://src/ui/theme.tres" id="1_sl1te"]
+[ext_resource type="PackedScene" uid="uid://cabps4fn5kekx" path="res://src/ui/menus/button_menu.tscn" id="2_h1kbi"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_hjh2c")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.464576, 0.583944, 1, 1)
+
+[node name="ContentMargin" type="MarginContainer" parent="."]
+layout_mode = 2
+offset_left = 250.0
+offset_top = 100.0
+offset_right = 902.0
+offset_bottom = 598.0
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="Content" type="VBoxContainer" parent="ContentMargin"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="ContentMargin/Content"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 2
+theme = ExtResource("1_sl1te")
+text = "Lunar Dew"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ActionsMargin" type="MarginContainer" parent="ContentMargin/Content"]
+layout_mode = 2
+theme_override_constants/margin_left = 150
+theme_override_constants/margin_right = 150
+
+[node name="Actions" type="VBoxContainer" parent="ContentMargin/Content/ActionsMargin"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 50
+
+[node name="Play" parent="ContentMargin/Content/ActionsMargin/Actions" instance=ExtResource("2_h1kbi")]
+layout_mode = 2
+
+[node name="Settings" parent="ContentMargin/Content/ActionsMargin/Actions" instance=ExtResource("2_h1kbi")]
+layout_mode = 2
+text = "Settings	
+"
+
+[node name="Credits" parent="ContentMargin/Content/ActionsMargin/Actions" instance=ExtResource("2_h1kbi")]
+layout_mode = 2
+text = "Credits
+"
+
+[connection signal="button_up" from="ContentMargin/Content/ActionsMargin/Actions/Play" to="." method="_on_play_button_up"]

@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://cabps4fn5kekx"]
+
+[ext_resource type="Theme" uid="uid://b46mwhxm8j7cu" path="res://src/ui/theme.tres" id="1_sh8aa"]
+[ext_resource type="Script" uid="uid://cv3sjyhcm53c" path="res://src/ui/menus/button_menu.gd" id="2_lpc14"]
+
+[node name="ButtonMenu" type="Button"]
+size_flags_vertical = 3
+theme = ExtResource("1_sh8aa")
+text = "Play
+"
+script = ExtResource("2_lpc14")

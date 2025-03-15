@@ -1,0 +1,25 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://cle16r2v5m6bx"]
+
+[ext_resource type="Shader" uid="uid://rnanh8aukfrv" path="res://src/planet/shaders/planet_shader.gdshader" id="1_d3c7v"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_psvpb"]
+noise_type = 4
+frequency = 0.0422
+fractal_type = 3
+fractal_weighted_strength = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_yfg7p"]
+in_3d_space = true
+seamless = true
+noise = SubResource("FastNoiseLite_psvpb")
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_d3c7v")
+shader_parameter/u_transition_mask = 0
+shader_parameter/u_block_local_transform = Projection(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
+shader_parameter/u_color_moon = Color(0.386454, 0.425852, 0.738555, 1)
+shader_parameter/u_color_crater = Color(0.649267, 0.68904, 0.900777, 1)
+shader_parameter/u_crater_noise = SubResource("NoiseTexture2D_yfg7p")
+shader_parameter/u_noise_scale = 0.275
+shader_parameter/u_crater_threshold = 0.51

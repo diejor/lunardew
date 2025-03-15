@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://8xrv2xgfyeu4"
+path="res://.godot/imported/yuna - Lunar Dewdrop Level 1 2025-03-14 01_41.mp3-a535fa45c39dc4bb1589f72acb6ecd53.mp3str"
+
+[deps]
+
+source_file="res://src/ui/songs/yuna - Lunar Dewdrop Level 1 2025-03-14 01_41.mp3"
+dest_files=["res://.godot/imported/yuna - Lunar Dewdrop Level 1 2025-03-14 01_41.mp3-a535fa45c39dc4bb1589f72acb6ecd53.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

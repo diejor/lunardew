@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bkamjn40t8kvb"
+path="res://.godot/imported/yuna - Lunar Dewdrop Main Theme 2025-03-14 01_41.mp3-c4ba54a82ec40d9ad0938c51d3575d98.mp3str"
+
+[deps]
+
+source_file="res://src/ui/songs/yuna - Lunar Dewdrop Main Theme 2025-03-14 01_41.mp3"
+dest_files=["res://.godot/imported/yuna - Lunar Dewdrop Main Theme 2025-03-14 01_41.mp3-c4ba54a82ec40d9ad0938c51d3575d98.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

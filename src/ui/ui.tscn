@@ -1,0 +1,245 @@
+[gd_scene load_steps=17 format=3 uid="uid://1mgi5w8s5qis"]
+
+[ext_resource type="Script" uid="uid://pfogwsgb4x42" path="res://src/ui/ui.gd" id="1_u7n8c"]
+[ext_resource type="PackedScene" uid="uid://2ncdnl1mq64u" path="res://src/ui/menus/main_menu/main_menu.tscn" id="2_f5cxw"]
+[ext_resource type="AudioStream" uid="uid://dcu1systql3f4" path="res://src/ui/sfx/button_click.wav" id="3_aac20"]
+[ext_resource type="AudioStream" uid="uid://8xrv2xgfyeu4" path="res://src/ui/songs/yuna - Lunar Dewdrop Level 1 2025-03-14 01_41.mp3" id="4_8wxmc"]
+[ext_resource type="AudioStream" uid="uid://dtql6adpny8w" path="res://src/ui/songs/yuna - Lunar Dewdrop Level 2 2025-03-14 01_42.mp3" id="5_7abqo"]
+[ext_resource type="AudioStream" uid="uid://cdvlvtvvtbjmx" path="res://src/ui/songs/yuna - Lunar Dewdrop Level 3 2025-03-14 01_42.mp3" id="6_gucsq"]
+[ext_resource type="AudioStream" uid="uid://bkamjn40t8kvb" path="res://src/ui/songs/yuna - Lunar Dewdrop Main Theme 2025-03-14 01_41.mp3" id="7_gucsq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gucsq"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gucsq"]
+content_margin_left = 15.0
+content_margin_top = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 1410065408
+corner_radius_top_right = 1410065408
+corner_radius_bottom_right = 1410065408
+corner_radius_bottom_left = 1410065408
+expand_margin_left = 10.0
+expand_margin_top = 10.0
+expand_margin_right = 10.0
+expand_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cx7gx"]
+content_margin_left = 20.0
+content_margin_top = 20.0
+content_margin_right = 20.0
+content_margin_bottom = 20.0
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+
+[sub_resource type="Animation" id="Animation_g5kmx"]
+resource_name = "button_clicked"
+length = 0.22
+tracks/0/type = "audio"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AudioServerUI")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.01,
+"stream": ExtResource("3_aac20")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/0/use_blend = true
+
+[sub_resource type="Animation" id="Animation_gucsq"]
+resource_name = "level1_song"
+length = 53.0
+loop_mode = 1
+tracks/0/type = "audio"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AudioServerUI")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("4_8wxmc")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/0/use_blend = true
+
+[sub_resource type="Animation" id="Animation_cx7gx"]
+resource_name = "level2_song"
+length = 59.0
+loop_mode = 1
+tracks/0/type = "audio"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AudioServerUI")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("5_7abqo")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/0/use_blend = true
+
+[sub_resource type="Animation" id="Animation_t30i7"]
+resource_name = "level3_song"
+length = 74.0
+loop_mode = 1
+tracks/0/type = "audio"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AudioServerUI")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("6_gucsq")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/0/use_blend = true
+
+[sub_resource type="Animation" id="Animation_1mh4k"]
+resource_name = "main_theme"
+length = 66.0
+loop_mode = 1
+tracks/0/type = "audio"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AudioServerUI")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("7_gucsq")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/0/use_blend = true
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0dwhk"]
+_data = {
+&"button_clicked": SubResource("Animation_g5kmx"),
+&"level1_song": SubResource("Animation_gucsq"),
+&"level2_song": SubResource("Animation_cx7gx"),
+&"level3_song": SubResource("Animation_t30i7"),
+&"main_theme": SubResource("Animation_1mh4k")
+}
+
+[node name="UI" type="CanvasLayer"]
+script = ExtResource("1_u7n8c")
+
+[node name="MainMenu" parent="." instance=ExtResource("2_f5cxw")]
+visible = false
+
+[node name="HUD" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Status" type="PanelContainer" parent="HUD"]
+layout_mode = 2
+offset_left = 37.0
+offset_top = 33.0
+offset_right = 327.0
+offset_bottom = 152.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_gucsq")
+
+[node name="HBoxStatus" type="HBoxContainer" parent="HUD/Status"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="PlayerPanel" type="PanelContainer" parent="HUD/Status/HBoxStatus"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+theme_override_styles/panel = SubResource("StyleBoxFlat_gucsq")
+
+[node name="PlayerIcon" type="ColorRect" parent="HUD/Status/HBoxStatus/PlayerPanel"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 1, 0.509804, 1)
+
+[node name="HeartsMargin" type="MarginContainer" parent="HUD/Status/HBoxStatus"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = -15
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HeartsPanel" type="PanelContainer" parent="HUD/Status/HBoxStatus/HeartsMargin"]
+z_index = -1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_cx7gx")
+
+[node name="HBoxHearts" type="HBoxContainer" parent="HUD/Status/HBoxStatus/HeartsMargin/HeartsPanel"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Heart3" type="ColorRect" parent="HUD/Status/HBoxStatus/HeartsMargin/HeartsPanel/HBoxHearts"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 0.52549, 1, 1)
+
+[node name="Heart2" type="ColorRect" parent="HUD/Status/HBoxStatus/HeartsMargin/HeartsPanel/HBoxHearts"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 0.513726, 1, 1)
+
+[node name="Heart1" type="ColorRect" parent="HUD/Status/HBoxStatus/HeartsMargin/HeartsPanel/HBoxHearts"]
+modulate = Color(1, 0.458824, 1, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Settings" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Credits" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PlayerUI" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_0dwhk")
+}
+
+[node name="AudioServerUI" type="AudioStreamPlayer" parent="."]
+
+[editable path="MainMenu"]
