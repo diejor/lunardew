@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://2ncdnl1mq64u"]
+[gd_scene load_steps=5 format=3 uid="uid://2ncdnl1mq64u"]
 
 [ext_resource type="Script" uid="uid://cn62r2n3n1khk" path="res://src/ui/menus/main_menu/main_menu.gd" id="1_hjh2c"]
 [ext_resource type="Theme" uid="uid://b46mwhxm8j7cu" path="res://src/ui/theme.tres" id="1_sl1te"]
@@ -9,29 +9,11 @@ content_margin_left = 64.0
 content_margin_top = 64.0
 content_margin_right = 64.0
 content_margin_bottom = 64.0
-bg_color = Color(0.450607, 0.581011, 0.942719, 0.341176)
+bg_color = Color(0.45098, 0.580392, 0.941176, 0.0196078)
 corner_radius_top_left = 64
 corner_radius_top_right = 64
 corner_radius_bottom_right = 64
 corner_radius_bottom_left = 64
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_26ujt"]
-bg_color = Color(0.537882, 0.588173, 0.796851, 1)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8damn"]
-content_margin_left = 16.0
-content_margin_top = 16.0
-content_margin_right = 32.0
-content_margin_bottom = 16.0
-bg_color = Color(0.635653, 0.498153, 0.978572, 0.34902)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -43,11 +25,12 @@ grow_vertical = 2
 script = ExtResource("1_hjh2c")
 
 [node name="ContentPanel" type="PanelContainer" parent="."]
-layout_mode = 2
-offset_left = 250.0
-offset_top = 100.0
-offset_right = 902.0
-offset_bottom = 598.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_hjh2c")
 
 [node name="Content" type="VBoxContainer" parent="ContentPanel"]
@@ -56,41 +39,46 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 32
 
-[node name="Panel" type="PanelContainer" parent="ContentPanel/Content"]
+[node name="Label" type="Label" parent="ContentPanel/Content"]
 layout_mode = 2
-size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_26ujt")
-
-[node name="Label" type="Label" parent="ContentPanel/Content/Panel"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
 theme = ExtResource("1_sl1te")
+theme_type_variation = &"HeaderLarge"
+theme_override_colors/font_color = Color(0.485589, 0.653046, 1, 1)
+theme_override_colors/font_shadow_color = Color(0.584194, 0.744742, 1, 1)
+theme_override_font_sizes/font_size = 126
 text = "Lunar Dew"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ActionsPanel" type="PanelContainer" parent="ContentPanel/Content"]
+[node name="MarginContainer" type="MarginContainer" parent="ContentPanel/Content"]
 layout_mode = 2
-size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_8damn")
+size_flags_horizontal = 0
+theme_override_constants/margin_left = 32
 
-[node name="Actions" type="VBoxContainer" parent="ContentPanel/Content/ActionsPanel"]
+[node name="Actions" type="VBoxContainer" parent="ContentPanel/Content/MarginContainer"]
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 2
 theme_override_constants/separation = 50
 
-[node name="Play" parent="ContentPanel/Content/ActionsPanel/Actions" instance=ExtResource("2_h1kbi")]
+[node name="Play" parent="ContentPanel/Content/MarginContainer/Actions" instance=ExtResource("2_h1kbi")]
 layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
 
-[node name="Settings" parent="ContentPanel/Content/ActionsPanel/Actions" instance=ExtResource("2_h1kbi")]
+[node name="Settings" parent="ContentPanel/Content/MarginContainer/Actions" instance=ExtResource("2_h1kbi")]
 layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 1
 text = "Settings	
 "
 
-[node name="Credits" parent="ContentPanel/Content/ActionsPanel/Actions" instance=ExtResource("2_h1kbi")]
+[node name="Credits" parent="ContentPanel/Content/MarginContainer/Actions" instance=ExtResource("2_h1kbi")]
 layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 1
 text = "Credits
 "
 
-[connection signal="button_up" from="ContentPanel/Content/ActionsPanel/Actions/Play" to="." method="_on_play_button_up"]
+[connection signal="button_up" from="ContentPanel/Content/MarginContainer/Actions/Play" to="." method="_on_play_button_up"]

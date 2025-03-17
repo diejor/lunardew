@@ -13,6 +13,7 @@ config_version=5
 config/name="ñumñum"
 run/main_scene="uid://dt3drmupjo2oe"
 config/features=PackedStringArray("4.4", "Forward Plus")
+boot_splash/show_image=false
 config/icon="res://icon.svg"
 
 [audio]

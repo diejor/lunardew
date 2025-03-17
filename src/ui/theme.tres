@@ -35,28 +35,39 @@ expand_margin_top = 2.0
 expand_margin_right = 2.0
 expand_margin_bottom = 2.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1m12o"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l82kg"]
 content_margin_left = 4.0
 content_margin_top = 4.0
 content_margin_right = 4.0
 content_margin_bottom = 4.0
-bg_color = Color(0.225, 0.225, 0.225, 0.6)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-corner_detail = 5
+bg_color = Color(0.439289, 0.437003, 1, 0.6)
+border_width_left = 8
+border_width_top = 4
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oci2t"]
-content_margin_left = 4.0
-content_margin_top = 4.0
-content_margin_right = 4.0
-content_margin_bottom = 4.0
-bg_color = Color(0.1, 0.1, 0.1, 0.6)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
+content_margin_left = 16.0
+content_margin_top = 6.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+bg_color = Color(0.407843, 0.709804, 1, 0.6)
+border_width_left = 8
+border_width_top = 2
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0.626654, 0.682851, 0.943468, 1)
+border_blend = true
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
 corner_detail = 5
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gjfte"]
@@ -94,17 +105,10 @@ Button/font_sizes/font_size = 32
 Button/fonts/font = ExtResource("1_cqcnm")
 Button/styles/disabled = SubResource("StyleBoxFlat_gjbod")
 Button/styles/focus = SubResource("StyleBoxFlat_v84ch")
-Button/styles/hover = SubResource("StyleBoxFlat_1m12o")
+Button/styles/hover = SubResource("StyleBoxFlat_l82kg")
 Button/styles/normal = SubResource("StyleBoxFlat_oci2t")
 Button/styles/pressed = SubResource("StyleBoxFlat_gjfte")
-Label/colors/font_color = Color(1, 1, 1, 1)
 Label/colors/font_outline_color = Color(0, 0, 0, 1)
-Label/colors/font_shadow_color = Color(0, 0, 0, 0)
-Label/constants/line_spacing = 3
-Label/constants/outline_size = 0
-Label/constants/shadow_offset_x = 1
-Label/constants/shadow_offset_y = 1
-Label/constants/shadow_outline_size = 1
 Label/font_sizes/font_size = 64
 Label/fonts/font = ExtResource("1_cqcnm")
 Label/styles/normal = SubResource("StyleBoxEmpty_v84ch")

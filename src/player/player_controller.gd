@@ -62,7 +62,7 @@ func _physics_process(delta: float) -> void:
 		var rotation_axis = current_up.cross(_planet_up).normalized()
 		var rotation = Basis().rotated(rotation_axis, angle_between * _vertical_correction_speed * delta)
 		transform.basis = rotation * transform.basis
-	
+
 	# Move and slide, passing _planet_up as the up direction.
 	move_and_slide()
 	
