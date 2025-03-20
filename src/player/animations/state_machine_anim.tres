@@ -1,0 +1,22 @@
+[gd_resource type="AnimationNodeStateMachine" load_steps=5 format=3 uid="uid://xw0yqepavsvl"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_x42xx"]
+animation = &"idle_down"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_l271a"]
+animation = &"idle_up"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_8ydov"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_x42xx")
+blend_point_0/pos = -0.4
+blend_point_1/node = SubResource("AnimationNodeAnimation_l271a")
+blend_point_1/pos = 0.4
+blend_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ylhto"]
+advance_mode = 2
+
+[resource]
+states/Idle/node = SubResource("AnimationNodeBlendSpace1D_8ydov")
+states/Idle/position = Vector2(325.333, 20.6667)
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_ylhto")]

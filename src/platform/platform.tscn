@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://cmvwywpkoebi0"]
+
+[node name="Platform" type="Node3D"]
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="CSGCombiner3D"]
+operation = 1
+radius = 5.0
+rings = 12

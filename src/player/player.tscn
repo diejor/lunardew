@@ -1,8 +1,11 @@
-[gd_scene load_steps=18 format=3 uid="uid://cjjvxgn2axgb2"]
+[gd_scene load_steps=17 format=3 uid="uid://cjjvxgn2axgb2"]
 
 [ext_resource type="Script" uid="uid://dwg15gpe1spw3" path="res://src/player/player_controller.gd" id="1_8afob"]
-[ext_resource type="AudioStream" uid="uid://cioq0phdpiefg" path="res://src/player/sfx/player_jump.wav" id="2_rxibo"]
+[ext_resource type="SpriteFrames" uid="uid://da4r14g1m42s6" path="res://src/player/player_animations_ss.tres" id="2_x42xx"]
+[ext_resource type="Script" uid="uid://djwixkqgduqe7" path="res://src/player/fix_height_on_play.gd" id="3_8ydov"]
 [ext_resource type="Script" uid="uid://bpnnmbbgsy1ra" path="res://addons/godot_state_charts/state_chart.gd" id="3_jiejy"]
+[ext_resource type="AnimationLibrary" uid="uid://dwser2v8a1huw" path="res://src/player/animations/animation_library.tres" id="3_x42xx"]
+[ext_resource type="AnimationNodeStateMachine" uid="uid://xw0yqepavsvl" path="res://src/player/animations/state_machine_anim.tres" id="4_l271a"]
 [ext_resource type="Script" uid="uid://d2frwrtcar1ga" path="res://addons/godot_state_charts/compound_state.gd" id="4_o822w"]
 [ext_resource type="Script" uid="uid://dievtw4ea6dt4" path="res://addons/godot_state_charts/atomic_state.gd" id="5_x42xx"]
 [ext_resource type="Script" uid="uid://d6qlb3u64wvs" path="res://addons/godot_state_charts/transition.gd" id="6_l271a"]
@@ -12,6 +15,7 @@
 shading_mode = 0
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_mf2ua"]
+lifetime_randomness = 1.0
 emission_shape = 1
 emission_sphere_radius = 0.5
 gravity = Vector3(0, 0, 0)
@@ -40,73 +44,7 @@ gradient = SubResource("Gradient_8afob")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_8afob"]
-
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0xm2m"]
-
-[sub_resource type="Animation" id="Animation_o822w"]
-resource_name = "RESET"
-loop_mode = 1
-tracks/0/type = "audio"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("SFX")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"clips": [],
-"times": PackedFloat32Array()
-}
-tracks/0/use_blend = true
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Visuals/LittleClouds:emitting")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-
-[sub_resource type="Animation" id="Animation_mf2ua"]
-resource_name = "jump"
-length = 0.41
-tracks/0/type = "audio"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("SFX")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"clips": [{
-"end_offset": 0.0,
-"start_offset": 0.0,
-"stream": ExtResource("2_rxibo")
-}],
-"times": PackedFloat32Array(0)
-}
-tracks/0/use_blend = true
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Visuals/LittleClouds:emitting")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.4),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_244u8"]
-_data = {
-&"RESET": SubResource("Animation_o822w"),
-&"jump": SubResource("Animation_mf2ua")
-}
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_8afob")
@@ -118,9 +56,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.989536, 0)
 material_override = SubResource("StandardMaterial3D_rxibo")
 cast_shadow = 0
 emitting = false
-amount = 64
-lifetime = 5.0
+sub_emitter = NodePath(".")
+one_shot = true
+explosiveness = 0.25
 fixed_fps = 60
+visibility_aabb = AABB(-0.565477, -0.445779, -0.573162, 1.08383, 0.973986, 1.09189)
 process_material = SubResource("ParticleProcessMaterial_mf2ua")
 draw_pass_1 = SubResource("SphereMesh_244u8")
 
@@ -132,9 +72,13 @@ upper_fade = 35.0555
 lower_fade = 1e-05
 distance_fade_enabled = true
 
-[node name="MeshPlaceholder" type="MeshInstance3D" parent="Visuals"]
-mesh = SubResource("CapsuleMesh_8afob")
-skeleton = NodePath("../../..")
+[node name="PlayerAnimations" type="AnimatedSprite3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+pixel_size = 0.0011
+billboard = 1
+sprite_frames = ExtResource("2_x42xx")
+animation = &"idle_down"
+script = ExtResource("3_8ydov")
 
 [node name="CollisionPlaceholder" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_0xm2m")
@@ -146,13 +90,20 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.13252, 1.1858)
 
 [node name="CheckIfGround" type="RayCast3D" parent="."]
 target_position = Vector3(0, -1.5, 0)
+collision_mask = 6
 debug_shape_custom_color = Color(1, 0, 0, 1)
 debug_shape_thickness = 5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-&"": SubResource("AnimationLibrary_244u8")
+&"": ExtResource("3_x42xx")
 }
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+callback_mode_discrete = 1
+tree_root = ExtResource("4_l271a")
+anim_player = NodePath("../AnimationPlayer")
+parameters/Idle/blend_position = -0.0756881
 
 [node name="StateChart" type="Node" parent="."]
 script = ExtResource("3_jiejy")
@@ -200,7 +151,7 @@ delay_in_seconds = "0.0"
 [node name="OnExpiration" type="Node" parent="StateChart/Root/Airbone/CoyoteTime"]
 script = ExtResource("6_l271a")
 to = NodePath("../../CannotJump")
-delay_in_seconds = "0.3"
+delay_in_seconds = "0.4"
 
 [node name="Jumping" type="Node" parent="StateChart/Root/Airbone"]
 script = ExtResource("5_x42xx")
@@ -222,8 +173,8 @@ offset_bottom = -408.0
 initial_node_to_watch = NodePath("../StateChart")
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
-[connection signal="state_physics_processing" from="StateChart/Root/Grounded" to="." method="_on_grounded_state_physics_processing"]
 [connection signal="state_physics_processing" from="StateChart/Root/Grounded" to="." method="_on_check_jump_grounded_state_physics_processing"]
+[connection signal="state_physics_processing" from="StateChart/Root/Grounded" to="." method="_on_grounded_state_physics_processing"]
 [connection signal="state_physics_processing" from="StateChart/Root/Airbone" to="." method="_on_airbone_state_physics_processing"]
 [connection signal="state_physics_processing" from="StateChart/Root/Airbone/CoyoteTime" to="." method="_on_check_jump_grounded_state_physics_processing"]
 [connection signal="state_entered" from="StateChart/Root/Airbone/Jumping" to="." method="_on_jumping_state_entered"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://1mgi5w8s5qis"]
+[gd_scene load_steps=29 format=3 uid="uid://1mgi5w8s5qis"]
 
 [ext_resource type="Script" uid="uid://pfogwsgb4x42" path="res://src/ui/ui.gd" id="1_u7n8c"]
 [ext_resource type="PackedScene" uid="uid://2ncdnl1mq64u" path="res://src/ui/menus/main_menu/main_menu.tscn" id="2_f5cxw"]
@@ -6,6 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://8xrv2xgfyeu4" path="res://src/ui/songs/yuna - Lunar Dewdrop Level 1 2025-03-14 01_41.mp3" id="4_8wxmc"]
 [ext_resource type="AudioStream" uid="uid://dtql6adpny8w" path="res://src/ui/songs/yuna - Lunar Dewdrop Level 2 2025-03-14 01_42.mp3" id="5_7abqo"]
 [ext_resource type="AudioStream" uid="uid://cdvlvtvvtbjmx" path="res://src/ui/songs/yuna - Lunar Dewdrop Level 3 2025-03-14 01_42.mp3" id="6_gucsq"]
+[ext_resource type="AudioStream" uid="uid://jfsf417ahgbo" path="res://src/ui/sfx/reward.wav" id="7_cx7gx"]
 [ext_resource type="AudioStream" uid="uid://bkamjn40t8kvb" path="res://src/ui/songs/yuna - Lunar Dewdrop Main Theme 2025-03-14 01_41.mp3" id="7_gucsq"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gucsq"]
@@ -63,6 +64,18 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0)
 }
 tracks/0/use_blend = true
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Songs:volume_db")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-5.0]
+}
 
 [sub_resource type="Animation" id="Animation_cx7gx"]
 resource_name = "level2_song"
@@ -124,8 +137,24 @@ tracks/0/keys = {
 }
 tracks/0/use_blend = true
 
+[sub_resource type="Animation" id="Animation_idipi"]
+resource_name = "RESET"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Songs:volume_db")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0dwhk"]
 _data = {
+&"RESET": SubResource("Animation_idipi"),
 &"level1_song": SubResource("Animation_gucsq"),
 &"level2_song": SubResource("Animation_cx7gx"),
 &"level3_song": SubResource("Animation_t30i7"),
@@ -197,7 +226,7 @@ tracks/4/keys = {
 
 [sub_resource type="Animation" id="Animation_l5owu"]
 resource_name = "button_clicked"
-length = 0.22
+length = 0.5
 tracks/0/type = "audio"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -207,7 +236,26 @@ tracks/0/loop_wrap = true
 tracks/0/keys = {
 "clips": [{
 "end_offset": 0.0,
-"start_offset": 0.01,
+"start_offset": 0.0,
+"stream": ExtResource("7_cx7gx")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/0/use_blend = true
+
+[sub_resource type="Animation" id="Animation_ri2wq"]
+resource_name = "button_hovered"
+length = 0.2
+tracks/0/type = "audio"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MenuSFX")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
 "stream": ExtResource("3_aac20")
 }],
 "times": PackedFloat32Array(0)
@@ -281,8 +329,36 @@ tracks/4/keys = {
 _data = {
 &"RESET": SubResource("Animation_wwjrv"),
 &"button_clicked": SubResource("Animation_l5owu"),
+&"button_hovered": SubResource("Animation_ri2wq"),
 &"transition_game": SubResource("Animation_j4riv")
 }
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_cx7gx"]
+animation = &"level1_song"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1mh4k"]
+animation = &"main_theme"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_l5owu"]
+advance_mode = 2
+
+[sub_resource type="Curve" id="Curve_cx7gx"]
+_data = [Vector2(0, 0), 0.0, 0.0260687, 0, 0, Vector2(0.40301, 0.319108), 1.39634, 1.39634, 0, 0, Vector2(0.607023, 0.70999), 1.1849, 1.1849, 0, 0, Vector2(0.841137, 0.43259), -1.1849, -1.14743, 1, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_t30i7"]
+xfade_time = 10.0
+xfade_curve = SubResource("Curve_cx7gx")
+advance_mode = 2
+advance_condition = &"is_level1"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_ri2wq"]
+states/level1_song/node = SubResource("AnimationNodeAnimation_cx7gx")
+states/level1_song/position = Vector2(529.333, 100.963)
+states/main_theme/node = SubResource("AnimationNodeAnimation_1mh4k")
+states/main_theme/position = Vector2(349.333, 99.3333)
+transitions = ["Start", "main_theme", SubResource("AnimationNodeStateMachineTransition_l5owu"), "main_theme", "level1_song", SubResource("AnimationNodeStateMachineTransition_t30i7")]
+graph_offset = Vector2(266.972, 0)
 
 [node name="UI" type="CanvasLayer"]
 script = ExtResource("1_u7n8c")
@@ -354,6 +430,11 @@ modulate = Color(1, 0.458824, 1, 1)
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="ProgressBar" type="ProgressBar" parent="HUD"]
+layout_mode = 0
+offset_right = 4.0
+offset_bottom = 27.0
+
 [node name="Settings" type="Control" parent="."]
 visible = false
 layout_mode = 3
@@ -372,11 +453,18 @@ offset_bottom = 40.0
 libraries = {
 &"": SubResource("AnimationLibrary_0dwhk")
 }
+playback_default_blend_time = 5.0
+blend_times = [&"level1_song", &"main_theme", 5.0]
 
 [node name="SFXPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_j4riv")
 }
+
+[node name="SongsMixer" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_ri2wq")
+anim_player = NodePath("../SongsPlayer")
+parameters/conditions/is_level1 = false
 
 [node name="MenuSFX" type="AudioStreamPlayer" parent="."]
 

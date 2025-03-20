@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bcwkugn6v3oy7"]
 
-[ext_resource type="Script" path="res://addons/godot_state_charts/utilities/state_chart_debugger.gd" id="1_i74os"]
+[ext_resource type="Script" uid="uid://408bik3rstvd" path="res://addons/godot_state_charts/utilities/state_chart_debugger.gd" id="1_i74os"]
 
 [node name="StateChartDebugger" type="MarginContainer"]
 anchors_preset = 15
@@ -13,6 +13,7 @@ maximum_lines = 50
 
 [node name="TabContainer" type="TabContainer" parent="."]
 layout_mode = 2
+current_tab = 0
 
 [node name="StateChart" type="MarginContainer" parent="TabContainer"]
 layout_mode = 2
@@ -20,6 +21,7 @@ theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
+metadata/_tab_index = 0
 
 [node name="Tree" type="Tree" parent="TabContainer/StateChart"]
 unique_name_in_owner = true
@@ -34,6 +36,7 @@ theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
+metadata/_tab_index = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/History"]
 layout_mode = 2
@@ -64,6 +67,7 @@ theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
+metadata/_tab_index = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Settings"]
 layout_mode = 2

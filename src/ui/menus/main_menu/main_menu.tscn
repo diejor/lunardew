@@ -48,7 +48,7 @@ theme_type_variation = &"HeaderLarge"
 theme_override_colors/font_color = Color(0.485589, 0.653046, 1, 1)
 theme_override_colors/font_shadow_color = Color(0.584194, 0.744742, 1, 1)
 theme_override_font_sizes/font_size = 126
-text = "Lunar Dew"
+text = "Lunar Dew Drop"
 horizontal_alignment = 1
 vertical_alignment = 1
 

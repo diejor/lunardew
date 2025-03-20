@@ -5,6 +5,9 @@ extends Camera3D
 @export var offset: Vector3 = Vector3(0, 5, 5)
 @export var smoothing_speed: float = 5.0
 
+func _ready() -> void:
+	UI.ButtonPressed.connect(on_ui_button_up)
+
 func _process(delta: float) -> void:
 	if not target:
 		return
@@ -46,3 +49,8 @@ func _process(delta: float) -> void:
 	# 9) Apply the results
 	transform.origin = final_pos
 	transform.basis = Basis(final_quat)
+
+
+func on_ui_button_up(button_name: StringName) -> void:
+	if button_name == "Play":
+		smoothing_speed = 2.5

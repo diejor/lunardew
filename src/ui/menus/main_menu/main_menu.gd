@@ -1,4 +1,5 @@
 extends Control
 
 func _on_play_button_up() -> void:
-	Game.UI.sfx_player.play("transition_game")
+	UI.sfx_player.queue("transition_game")
+	UI.songs_mixer.set("parameters/conditions/is_level1", true)

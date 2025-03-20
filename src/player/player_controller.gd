@@ -7,11 +7,24 @@ extends CharacterBody3D
 @export var _vertical_correction_speed: float = PI
 @export var _planet_center: Vector3 = Vector3(0, 0, 0)  # Define the planet's center
 
+@onready var _animation_tree: AnimationTree = $AnimationTree
+@onready var _sprite_animations: AnimatedSprite3D = $Visuals/PlayerAnimations
 @onready var _animation_player: AnimationPlayer = $AnimationPlayer
 @onready var _is_grounded_check: RayCast3D = $CheckIfGround
 @onready var _state_chart: StateChart = $StateChart
 
 var _planet_up: Vector3
+
+func _ready() -> void:
+	set_process_input(false)
+	UI.ButtonPressed.connect(on_ui_button_up)
+	_sprite_animations.play("idle_down")
+	
+	
+func on_ui_button_up(button_name: StringName):
+	if button_name == "Play":
+		set_process_input(true)
+		_animation_player.play("idle_up")
 
 func is_grounded() -> bool:
 	return (is_on_floor() or _is_grounded_check.is_colliding())
@@ -28,7 +41,18 @@ func _physics_process(delta: float) -> void:
 	# Tank-style movement:
 	#    - input_dir.x = turn left/right
 	#    - input_dir.y = move forward/back
-	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
+	var input_dir = Vector2.ZERO
+	if is_processing_input():
+		input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
+	
+		_animation_tree.set("parameters/conditions/is_walking", input_dir.y != 0.0)
+		_animation_tree.set("parameters/conditions/is_idle", input_dir.y == 0.0)
+		if input_dir.y != 0:
+			_animation_tree.set("parameters/Idle/blend_position", -input_dir.y)
+		
+		if _animation_tree.get("parameters/Idle/blend_position") != 0:
+			input_dir.x = sign(_animation_tree.get("parameters/Idle/blend_position")) * input_dir.x
+		
 	
 	# (A) Rotate around _planet_up if the user is pressing left or right.
 	#     If input_dir.x is negative => turn left, if positive => turn right.
@@ -60,8 +84,8 @@ func _physics_process(delta: float) -> void:
 	var angle_between = acos(clamp(current_up.dot(_planet_up), -1, 1))
 	if angle_between > 0.0001:
 		var rotation_axis = current_up.cross(_planet_up).normalized()
-		var rotation = Basis().rotated(rotation_axis, angle_between * _vertical_correction_speed * delta)
-		transform.basis = rotation * transform.basis
+		var rot = Basis().rotated(rotation_axis, angle_between * _vertical_correction_speed * delta)
+		transform.basis = rot * transform.basis
 
 	# Move and slide, passing _planet_up as the up direction.
 	move_and_slide()
@@ -80,9 +104,8 @@ func _on_jumping_state_entered() -> void:
 	velocity = horizontal_velocity + _planet_up * _jump_velocity
 
 func _on_check_jump_grounded_state_physics_processing(delta: float) -> void:
-	if Input.is_action_just_pressed("jump") and is_grounded():
+	if Input.is_action_just_pressed("jump") and is_grounded() and is_processing_input():
 		_state_chart.send_event("jump")
-
 
 func _on_grounded_state_physics_processing(delta: float) -> void:
 	# Apply planet gravity (if not on the floor).
@@ -93,6 +116,5 @@ func _on_grounded_state_physics_processing(delta: float) -> void:
 func _on_airbone_state_physics_processing(delta: float) -> void:
 	if not is_on_floor():
 		velocity += -_planet_up * _gravity_strength * delta
-		_state_chart._state
 	else:
 		_state_chart.send_event("grounded")

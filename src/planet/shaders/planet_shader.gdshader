@@ -1,58 +1,86 @@
 shader_type spatial;
-render_mode unshaded; // Use unshaded to see flat colors without lighting interference
+render_mode unshaded;
 
 #include "res://src/planet/shaders/transvoxel.gdshaderinc"
 
-// Transform for your Voxel block (defines planet coordinates)
-uniform mat4 u_block_local_transform;
-
-// Base moon color and crater tint
+// Base colors: moon surface, crater fill, and outline color.
 uniform vec3 u_color_moon : source_color = vec3(0.8, 0.8, 0.8);
 uniform vec3 u_color_crater : source_color = vec3(0.4, 0.4, 0.4);
+uniform vec3 u_color_outline : source_color = vec3(1.0, 0.0, 0.0);
+// Outline width (in noise value units).
+uniform float u_outline_threshold = 0.02;
 
-// A noise texture to determine crater placement (should be a tileable grayscale texture)
-uniform sampler2D u_crater_noise;
+uniform sampler2D u_crater_noise; // Tileable noise texture for crater placement.
+uniform float u_noise_scale = 1.0; // Controls texture tiling.
+uniform float u_crater_threshold = 0.5; // Threshold to decide crater areas.
 
-// Controls the scale of the noise pattern on the planet surface
-uniform float u_noise_scale = 1.0;
+// Varying to pass the world-space vertex position.
+varying vec3 v_world_pos;
 
-// The threshold for the crater effect; lower values yield larger crater areas
-uniform float u_crater_threshold = 0.5;
+//
+// Triplanar functions (embedded)
+//
 
-// Varying to pass planet-space vertex position from vertex() to fragment()
-varying vec3 v_planet_pos;
+// Computes blend weights for triplanar mapping from the world normal.
+// The 'sharpness' parameter controls the blending falloff.
+vec3 get_triplanar_blend(vec3 world_normal, float sharpness) {
+    vec3 blending = pow(abs(world_normal), vec3(sharpness));
+    return blending / (blending.x + blending.y + blending.z);
+}
+
+// Performs triplanar texture sampling with mipmap filtering using textureGrad.
+// Projects the texture on the three primary axes and blends them using the provided weights.
+vec4 texture_triplanar(sampler2D tex, vec3 world_pos, vec3 blend) {
+    // Projection on X-axis: use the YZ plane.
+    vec2 coord_x = world_pos.yz;
+    vec2 dcoord_x_dx = dFdx(coord_x);
+    vec2 dcoord_x_dy = dFdy(coord_x);
+    vec4 sample_x = textureGrad(tex, coord_x, dcoord_x_dx, dcoord_x_dy);
+
+    // Projection on Y-axis: use the XZ plane.
+    vec2 coord_y = world_pos.xz;
+    vec2 dcoord_y_dx = dFdx(coord_y);
+    vec2 dcoord_y_dy = dFdy(coord_y);
+    vec4 sample_y = textureGrad(tex, coord_y, dcoord_y_dx, dcoord_y_dy);
+
+    // Projection on Z-axis: use the XY plane.
+    vec2 coord_z = world_pos.xy;
+    vec2 dcoord_z_dx = dFdx(coord_z);
+    vec2 dcoord_z_dy = dFdy(coord_z);
+    vec4 sample_z = textureGrad(tex, coord_z, dcoord_z_dx, dcoord_z_dy);
+
+    // Blend the three samples based on their respective weights.
+    return sample_x * blend.x + sample_y * blend.y + sample_z * blend.z;
+}
 
 void vertex() {
-    // Apply transvoxel modifications if needed
+    // Optionally apply transvoxel modifications.
     VERTEX = get_transvoxel_position(VERTEX, CUSTOM0);
-    // Transform vertex to planet-space
-    vec3 planet_pos = (u_block_local_transform * vec4(VERTEX, 1.0)).xyz;
-    v_planet_pos = planet_pos;
+    // Compute the world-space position using the built-in MODEL_MATRIX.
+    v_world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 }
 
 void fragment() {
-    // Compute spherical coordinates from the planet-space position.
-    // r: radial distance (planet radius at this vertex)
-    float r = length(v_planet_pos);
-    // theta: angle around the Y axis (longitude); returns [-π, +π]
-    float theta = atan(v_planet_pos.z, v_planet_pos.x);
-    // phi: angle from the "north pole" (latitude); returns [0, π]
-    float phi = acos(clamp(v_planet_pos.y / r, -1.0, 1.0));
+    // Use the normalized world position so that the mapping is independent of scale.
+    vec3 n = normalize(v_world_pos);
+    // Use the normalized vector to drive triplanar mapping.
+    vec3 blend = get_triplanar_blend(n, 8.0);
+    // Use the normalized direction scaled by u_noise_scale.
+    vec3 scaled_pos = n * u_noise_scale;
 
-    // Map theta and phi to a [0,1] range to form UV coordinates.
-    float u = (theta / (2.0 * 3.1415926535)) + 0.5;
-    float v = phi / 3.1415926535;
+    // Sample the noise texture using triplanar mapping with mipmap filtering.
+    vec4 noise_sample = texture_triplanar(u_crater_noise, scaled_pos, blend);
 
-    // Scale the UV coordinates to adjust the noise tiling
-    vec2 noise_uv = vec2(u, v) * u_noise_scale;
+    // Create a crater mask based on the threshold.
+    float is_crater = step(noise_sample.r, u_crater_threshold);
 
-    // Sample the noise texture. Expecting a grayscale image where the red channel is used.
-    float crater_val = texture(u_crater_noise, noise_uv).r;
+    // Compute the difference from the threshold to determine crater edges.
+    float diff = abs(noise_sample.r - u_crater_threshold);
+    // Use a binary step for a sharp outline.
+    float outline_mask = step(diff, u_outline_threshold);
 
-    // Use a step function to create a binary mask based on the threshold:
-    // Pixels where the noise value is lower than u_crater_threshold become crater areas.
-    float is_crater = step(crater_val, u_crater_threshold);
-
-    // Mix between the base moon color and crater color based on the crater mask
-    ALBEDO = mix(u_color_moon, u_color_crater, is_crater);
+    // Blend between the base moon color and crater fill based on the crater mask.
+    vec3 base_color = mix(u_color_moon, u_color_crater, is_crater);
+    // Replace the base color with the outline color where applicable.
+    ALBEDO = mix(base_color, u_color_outline, outline_mask);
 }

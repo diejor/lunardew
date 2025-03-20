@@ -27,5 +27,8 @@ script = ExtResource("5_7jktm")
 
 [node name="UI" parent="." instance=ExtResource("4_fc0e3")]
 
+[node name="Songs" parent="UI" index="8"]
+stream = null
+
 [editable path="UI"]
 [editable path="UI/MainMenu"]

@@ -22,7 +22,7 @@ buses/default_bus_layout="res://src/bus_layout.tres"
 
 [autoload]
 
-Game="*res://game.tscn"
+UI="*res://src/ui/ui.tscn"
 
 [display]
 
