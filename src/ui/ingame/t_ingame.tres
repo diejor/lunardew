@@ -1,0 +1,28 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://bq621qsps0nwg"]
+
+[ext_resource type="FontFile" uid="uid://dl4s5bbnbl1jw" path="res://src/ui/fonts/font.ttf" id="1_ogfug"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ogfug"]
+content_margin_left = 64.0
+content_margin_top = 32.0
+content_margin_right = 64.0
+content_margin_bottom = 32.0
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 16
+border_color = Color(0.247059, 0.25098, 0.247059, 1)
+border_blend = true
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[resource]
+Label/font_sizes/font_size = 32
+Label/fonts/font = ExtResource("1_ogfug")
+RichTextLabel/colors/default_color = Color(0, 0, 0, 1)
+RichTextLabel/font_sizes/normal_font_size = 64
+RichTextLabel/fonts/normal_font = ExtResource("1_ogfug")
+RichTextLabel/styles/normal = SubResource("StyleBoxFlat_ogfug")

@@ -1,6 +1,6 @@
 [gd_resource type="Theme" load_steps=8 format=3 uid="uid://b46mwhxm8j7cu"]
 
-[ext_resource type="FontFile" uid="uid://cawxhnhr4oto2" path="res://src/ui/fonts/DMSans-VariableFont_opsz,wght.ttf" id="1_cqcnm"]
+[ext_resource type="FontFile" uid="uid://dl4s5bbnbl1jw" path="res://src/ui/fonts/font.ttf" id="2_x6c0i"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gjbod"]
 content_margin_left = 4.0
@@ -102,7 +102,7 @@ Button/constants/align_to_largest_stylebox = 0
 Button/constants/h_separation = 5
 Button/constants/icon_max_width = 0
 Button/font_sizes/font_size = 32
-Button/fonts/font = ExtResource("1_cqcnm")
+Button/fonts/font = ExtResource("2_x6c0i")
 Button/styles/disabled = SubResource("StyleBoxFlat_gjbod")
 Button/styles/focus = SubResource("StyleBoxFlat_v84ch")
 Button/styles/hover = SubResource("StyleBoxFlat_l82kg")
@@ -110,5 +110,5 @@ Button/styles/normal = SubResource("StyleBoxFlat_oci2t")
 Button/styles/pressed = SubResource("StyleBoxFlat_gjfte")
 Label/colors/font_outline_color = Color(0, 0, 0, 1)
 Label/font_sizes/font_size = 64
-Label/fonts/font = ExtResource("1_cqcnm")
+Label/fonts/font = ExtResource("2_x6c0i")
 Label/styles/normal = SubResource("StyleBoxEmpty_v84ch")

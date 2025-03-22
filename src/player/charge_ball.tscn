@@ -1,0 +1,87 @@
+[gd_scene load_steps=15 format=3 uid="uid://db0vh8kfsf16g"]
+
+[ext_resource type="Script" uid="uid://oafyc88l3lxc" path="res://src/player/charge_ball.gd" id="1_hhcyl"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_7jktm"]
+bounce = 1.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_7dm0k"]
+radius = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hhcyl"]
+emission_enabled = true
+emission = Color(0, 1, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_ig7tw"]
+radius = 0.1
+height = 0.2
+
+[sub_resource type="Curve" id="Curve_hhcyl"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_6wrf8"]
+curve = SubResource("Curve_hhcyl")
+
+[sub_resource type="Curve" id="Curve_6wrf8"]
+_limits = [0.0, 5.0, 0.0, 1.0]
+_data = [Vector2(0, 1.01124), 0.0, 13.4831, 0, 0, Vector2(1, 4.94382), 1.66727, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_rfpvb"]
+curve = SubResource("Curve_6wrf8")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_xk4xt"]
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_rfpvb")
+emission_curve = SubResource("CurveTexture_6wrf8")
+sub_emitter_mode = 2
+sub_emitter_amount_at_end = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6wrf8"]
+vertex_color_use_as_albedo = true
+emission_enabled = true
+emission = Color(0, 1, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_iygna"]
+material = SubResource("StandardMaterial3D_6wrf8")
+radius = 0.1
+height = 0.2
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hhcyl"]
+gravity = Vector3(0, 0, 0)
+
+[sub_resource type="SphereMesh" id="SphereMesh_6wrf8"]
+radial_segments = 4
+rings = 1
+
+[node name="ChargeBall" type="RigidBody3D"]
+collision_layer = 4
+collision_mask = 5
+physics_material_override = SubResource("PhysicsMaterial_7jktm")
+script = ExtResource("1_hhcyl")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_7dm0k")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_hhcyl")
+mesh = SubResource("SphereMesh_ig7tw")
+
+[node name="Charge" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 1
+sub_emitter = NodePath("../Explosion")
+lifetime = 5.0
+one_shot = true
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_xk4xt")
+draw_pass_1 = SubResource("SphereMesh_iygna")
+
+[node name="Explosion" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 1
+process_material = SubResource("ParticleProcessMaterial_hhcyl")
+draw_pass_1 = SubResource("SphereMesh_6wrf8")
+
+[connection signal="finished" from="Explosion" to="." method="_on_explosion_finished"]

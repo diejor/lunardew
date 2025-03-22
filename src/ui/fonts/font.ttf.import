@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://cawxhnhr4oto2"
-path="res://.godot/imported/DMSans-VariableFont_opsz,wght.ttf-4465a65e9def7935d5849538c31b471f.fontdata"
+uid="uid://dl4s5bbnbl1jw"
+path="res://.godot/imported/font.ttf-69a45214908cb6a4f3314de61a9d98b5.fontdata"
 
 [deps]
 
-source_file="res://src/ui/fonts/DMSans-VariableFont_opsz,wght.ttf"
-dest_files=["res://.godot/imported/DMSans-VariableFont_opsz,wght.ttf-4465a65e9def7935d5849538c31b471f.fontdata"]
+source_file="res://src/ui/fonts/font.ttf"
+dest_files=["res://.godot/imported/font.ttf-69a45214908cb6a4f3314de61a9d98b5.fontdata"]
 
 [params]
 

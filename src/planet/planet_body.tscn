@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://bsjh08fckuqsv"]
+
+[ext_resource type="Script" uid="uid://d3k3pyi0allkk" path="res://src/planet/planetary_body.gd" id="1_tsx38"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_tsx38"]
+radius = 0.25
+height = 0.5
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_tsx38"]
+radius = 0.25
+
+[node name="PlanetBody" type="RigidBody3D"]
+script = ExtResource("1_tsx38")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_tsx38")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_tsx38")

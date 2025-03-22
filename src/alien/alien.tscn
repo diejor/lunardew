@@ -1,0 +1,99 @@
+[gd_scene load_steps=8 format=3 uid="uid://byodlr5imq2j7"]
+
+[ext_resource type="Script" uid="uid://dyowq713u4x7w" path="res://src/alien/alien_controller.gd" id="1_jgonn"]
+[ext_resource type="Texture2D" uid="uid://dvdmf468o57e2" path="res://src/alien/animations/poses.png" id="2_7fsto"]
+[ext_resource type="Script" uid="uid://bjgwucpkgl7fb" path="res://src/alien/align_sprite_view.gd" id="3_7fsto"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_iygna"]
+radius = 0.25
+height = 1.0
+
+[sub_resource type="Animation" id="Animation_jsn5t"]
+resource_name = "left_up"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ucyvu"]
+_data = {
+&"left_up": SubResource("Animation_jsn5t")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jgonn"]
+atlas = ExtResource("2_7fsto")
+region = Rect2(296, 0, 148, 296)
+
+[node name="Alien" type="CharacterBody3D"]
+collision_mask = 2
+script = ExtResource("1_jgonn")
+sensor_paths = Array[NodePath]([NodePath("Perceptron/RayCast3D"), NodePath("Perceptron/RayCast3D2"), NodePath("Perceptron/RayCast3D3"), NodePath("Perceptron/RayCast3D4"), NodePath("Perceptron/RayCast3D5"), NodePath("Perceptron/RayCast3D6"), NodePath("Perceptron/RayCast3D7"), NodePath("Perceptron/RayCast3D8"), NodePath("Perceptron/RayCast3D9"), NodePath("Perceptron/RayCast3D10"), NodePath("Perceptron/RayCast3D11")])
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_iygna")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_ucyvu")
+}
+
+[node name="Perceptron" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0)
+
+[node name="RayCast3D" type="RayCast3D" parent="Perceptron"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, 0, 0)
+target_position = Vector3(0, 0, -5)
+debug_shape_thickness = 5
+
+[node name="RayCast3D2" type="RayCast3D" parent="Perceptron"]
+transform = Transform3D(0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, 0.5, 0, 0, 0)
+target_position = Vector3(0, 0, -5)
+debug_shape_thickness = 5
+
+[node name="RayCast3D3" type="RayCast3D" parent="Perceptron"]
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 0, 0, 0)
+target_position = Vector3(0, 0, -5)
+debug_shape_thickness = 5
+
+[node name="RayCast3D4" type="RayCast3D" parent="Perceptron"]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 0, 0, 0)
+target_position = Vector3(0, 0, -5)
+debug_shape_thickness = 5
+
+[node name="RayCast3D5" type="RayCast3D" parent="Perceptron"]
+transform = Transform3D(0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, 0.5, 0, 0, 0)
+target_position = Vector3(0, 0, -5)
+debug_shape_thickness = 5
+
+[node name="RayCast3D6" type="RayCast3D" parent="Perceptron"]
+transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, 0, 0, 0)
+target_position = Vector3(0, 0, -5)
+debug_shape_thickness = 5
+
+[node name="RayCast3D7" type="RayCast3D" parent="Perceptron"]
+transform = Transform3D(0.707106, 0, -0.707106, 0, 1, 0, 0.707106, 0, 0.707106, 0, 0, 0)
+target_position = Vector3(0, 0, -5)
+debug_shape_thickness = 5
+
+[node name="RayCast3D8" type="RayCast3D" parent="Perceptron"]
+transform = Transform3D(0.707106, 0, -0.707106, 0, 1, 0, 0.707106, 0, 0.707106, 0, 0, 0)
+target_position = Vector3(0, 0, -5)
+debug_shape_thickness = 5
+
+[node name="RayCast3D9" type="RayCast3D" parent="Perceptron"]
+transform = Transform3D(0.707106, 0, 0.707106, 0, 1, 0, -0.707106, 0, 0.707106, 0, 0, 0)
+target_position = Vector3(0, 0, -5)
+debug_shape_thickness = 5
+
+[node name="RayCast3D10" type="RayCast3D" parent="Perceptron"]
+transform = Transform3D(0.996194, 0, 0.0871557, 0, 1, 0, -0.0871557, 0, 0.996194, 0, 0, 0)
+target_position = Vector3(0, 0, -5)
+debug_shape_thickness = 5
+
+[node name="RayCast3D11" type="RayCast3D" parent="Perceptron"]
+transform = Transform3D(0.996194, 0, -0.0871557, 0, 1, 0, 0.0871557, 0, 0.996194, 0, 0, 0)
+target_position = Vector3(0, 0, -5)
+debug_shape_thickness = 5
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="Sprite3D" type="Sprite3D" parent="Visuals"]
+pixel_size = 0.003
+texture = SubResource("AtlasTexture_jgonn")
+script = ExtResource("3_7fsto")

@@ -11,9 +11,10 @@ extends CharacterBody3D
 @onready var _sprite_animations: AnimatedSprite3D = $Visuals/PlayerAnimations
 @onready var _animation_player: AnimationPlayer = $AnimationPlayer
 @onready var _is_grounded_check: RayCast3D = $CheckIfGround
-@onready var _state_chart: StateChart = $StateChart
+@onready var _state_chart: StateChart = %PlayerStateChart
 
 var _planet_up: Vector3
+var _input_dir = Vector2(0., 1.)
 
 func _ready() -> void:
 	set_process_input(false)
@@ -24,10 +25,17 @@ func _ready() -> void:
 func on_ui_button_up(button_name: StringName):
 	if button_name == "Play":
 		set_process_input(true)
-		_animation_player.play("idle_up")
+		_animation_player.queue("idle_up")
+		_state_chart.send_event("jump")
 
 func is_grounded() -> bool:
 	return (is_on_floor() or _is_grounded_check.is_colliding())
+
+func jump() -> void:
+	# Extract the horizontal component by subtracting the current vertical component
+	var horizontal_velocity = velocity - velocity.project(_planet_up)
+	# Set the vertical component to your jump value along _planet_up
+	velocity = horizontal_velocity + _planet_up * _jump_velocity
 
 func _physics_process(delta: float) -> void:
 	# Determine _planet_up.
@@ -44,11 +52,14 @@ func _physics_process(delta: float) -> void:
 	var input_dir = Vector2.ZERO
 	if is_processing_input():
 		input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
-	
 		_animation_tree.set("parameters/conditions/is_walking", input_dir.y != 0.0)
 		_animation_tree.set("parameters/conditions/is_idle", input_dir.y == 0.0)
 		if input_dir.y != 0:
 			_animation_tree.set("parameters/Idle/blend_position", -input_dir.y)
+			_input_dir = input_dir
+			_state_chart.send_event("walk")
+		else:
+			_state_chart.send_event("idle")
 		
 		if _animation_tree.get("parameters/Idle/blend_position") != 0:
 			input_dir.x = sign(_animation_tree.get("parameters/Idle/blend_position")) * input_dir.x
@@ -95,13 +106,9 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 		_state_chart.send_event("jump_finished")
 
 func _on_jumping_state_entered() -> void:
-	_animation_player.play("jump")
+	_animation_player.queue("jump")
 	
-	# !!!JUMP!!!
-	# Extract the horizontal component by subtracting the current vertical component
-	var horizontal_velocity = velocity - velocity.project(_planet_up)
-	# Set the vertical component to your jump value along _planet_up
-	velocity = horizontal_velocity + _planet_up * _jump_velocity
+	
 
 func _on_check_jump_grounded_state_physics_processing(delta: float) -> void:
 	if Input.is_action_just_pressed("jump") and is_grounded() and is_processing_input():
@@ -118,3 +125,7 @@ func _on_airbone_state_physics_processing(delta: float) -> void:
 		velocity += -_planet_up * _gravity_strength * delta
 	else:
 		_state_chart.send_event("grounded")
+
+func _on_coyote_time_state_physics_processing(delta: float) -> void:
+	if Input.is_action_just_pressed("jump"):
+		_state_chart.send_event("jump")

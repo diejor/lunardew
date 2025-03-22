@@ -1,10 +1,18 @@
-[gd_scene format=3 uid="uid://cmvwywpkoebi0"]
+[gd_scene load_steps=3 format=3 uid="uid://cmvwywpkoebi0"]
 
-[node name="Platform" type="Node3D"]
+[sub_resource type="CylinderMesh" id="CylinderMesh_0c3cv"]
+top_radius = 1.0
+bottom_radius = 1.0
+height = 10.0
 
-[node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_0c3cv"]
+height = 10.0
+radius = 1.0
 
-[node name="CSGSphere3D" type="CSGSphere3D" parent="CSGCombiner3D"]
-operation = 1
-radius = 5.0
-rings = 12
+[node name="Platform" type="StaticBody3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_0c3cv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CylinderShape3D_0c3cv")

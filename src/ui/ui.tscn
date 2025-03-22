@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://1mgi5w8s5qis"]
+[gd_scene load_steps=31 format=3 uid="uid://1mgi5w8s5qis"]
 
 [ext_resource type="Script" uid="uid://pfogwsgb4x42" path="res://src/ui/ui.gd" id="1_u7n8c"]
 [ext_resource type="PackedScene" uid="uid://2ncdnl1mq64u" path="res://src/ui/menus/main_menu/main_menu.tscn" id="2_f5cxw"]
@@ -8,6 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://cdvlvtvvtbjmx" path="res://src/ui/songs/yuna - Lunar Dewdrop Level 3 2025-03-14 01_42.mp3" id="6_gucsq"]
 [ext_resource type="AudioStream" uid="uid://jfsf417ahgbo" path="res://src/ui/sfx/reward.wav" id="7_cx7gx"]
 [ext_resource type="AudioStream" uid="uid://bkamjn40t8kvb" path="res://src/ui/songs/yuna - Lunar Dewdrop Main Theme 2025-03-14 01_41.mp3" id="7_gucsq"]
+[ext_resource type="AudioStream" uid="uid://dt7refnl2ei7g" path="res://src/sfx/start_game.wav" id="9_t30i7"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gucsq"]
 
@@ -44,6 +45,22 @@ border_width_bottom = 5
 border_color = Color(0, 0, 0, 1)
 corner_radius_top_right = 30
 corner_radius_bottom_right = 30
+
+[sub_resource type="Animation" id="Animation_idipi"]
+resource_name = "RESET"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Songs:volume_db")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
 
 [sub_resource type="Animation" id="Animation_gucsq"]
 resource_name = "level1_song"
@@ -136,21 +153,6 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0)
 }
 tracks/0/use_blend = true
-
-[sub_resource type="Animation" id="Animation_idipi"]
-resource_name = "RESET"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Songs:volume_db")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0dwhk"]
 _data = {
@@ -325,11 +327,31 @@ tracks/4/keys = {
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_6s7ef"]
+resource_name = "start_game"
+length = 2.5
+tracks/0/type = "audio"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MenuSFX")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("9_t30i7")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/0/use_blend = true
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_j4riv"]
 _data = {
 &"RESET": SubResource("Animation_wwjrv"),
 &"button_clicked": SubResource("Animation_l5owu"),
 &"button_hovered": SubResource("Animation_ri2wq"),
+&"start_game": SubResource("Animation_6s7ef"),
 &"transition_game": SubResource("Animation_j4riv")
 }
 

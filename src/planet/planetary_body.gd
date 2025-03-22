@@ -1,3 +1,4 @@
+class_name PlanetBody
 extends RigidBody3D
 
 @export var gravity_strength = 9.8

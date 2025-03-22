@@ -1,17 +1,10 @@
-extends AnimatedSprite3D
-
-func _ready() -> void:
-	UI.ButtonPressed.connect(on_button_down)
-
-func on_button_down(button_name: StringName):
-	if button_name == "Play":
-		position.y = 0.0
+extends SpriteBase3D
 
 @onready var _p = $"../.."
 
 func _process(delta):
 	# Get the current camera (make sure your camera is the active one)
-	var planet_up = _p.planet_up
+	var planet_up = _p._planet_up
 	var cam = get_viewport().get_camera_3d()
 	if cam == null:
 		return  # Safety check in case there's no camera

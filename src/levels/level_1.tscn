@@ -1,10 +1,12 @@
-[gd_scene load_steps=28 format=3 uid="uid://dt3drmupjo2oe"]
+[gd_scene load_steps=24 format=3 uid="uid://dt3drmupjo2oe"]
 
-[ext_resource type="Script" uid="uid://d3k3pyi0allkk" path="res://src/planet/planetary_body.gd" id="1_7jktm"]
 [ext_resource type="Material" uid="uid://cle16r2v5m6bx" path="res://src/planet/material_planet.tres" id="1_fc0e3"]
-[ext_resource type="Shader" uid="uid://rnanh8aukfrv" path="res://src/planet/shaders/planet_shader.gdshader" id="3_xk4xt"]
 [ext_resource type="PackedScene" uid="uid://cjjvxgn2axgb2" path="res://src/player/player.tscn" id="4_fc0e3"]
+[ext_resource type="PackedScene" uid="uid://cmvwywpkoebi0" path="res://src/platform/platform.tscn" id="4_iygna"]
 [ext_resource type="Script" uid="uid://bku06nnwpk2hw" path="res://src/player/camera3rd.gd" id="5_7jktm"]
+[ext_resource type="PackedScene" uid="uid://cqa4ocxckglvo" path="res://src/ui/ingame/in_popup.tscn" id="5_xk4xt"]
+[ext_resource type="Texture2D" uid="uid://cxss343iwb3w0" path="res://src/planet/eyes.png" id="6_iygna"]
+[ext_resource type="PackedScene" uid="uid://byodlr5imq2j7" path="res://src/alien/alien.tscn" id="7_l80tk"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7jktm"]
 sky_top_color = Color(0.0156863, 0.101961, 0.176471, 1)
@@ -23,11 +25,13 @@ sky = SubResource("Sky_ig7tw")
 ambient_light_source = 2
 ambient_light_color = Color(1, 1, 1, 1)
 ambient_light_sky_contribution = 0.2
-ambient_light_energy = 1.11
 tonemap_mode = 3
 tonemap_exposure = 0.5
 ssao_enabled = true
 glow_enabled = true
+glow_normalized = true
+glow_bloom = 0.1
+glow_blend_mode = 0
 volumetric_fog_density = 0.1
 
 [sub_resource type="ZN_FastNoiseLite" id="ZN_FastNoiseLite_7jktm"]
@@ -84,60 +88,22 @@ graph_data = {
 
 [sub_resource type="VoxelMesherTransvoxel" id="VoxelMesherTransvoxel_ig7tw"]
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_7jktm"]
-bounce = 1.0
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_7dm0k"]
-radius = 0.1
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_iygna"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_l80tk"]
-render_priority = 0
-shader = ExtResource("3_xk4xt")
-shader_parameter/u_transition_mask = 0
-shader_parameter/u_color_moon = Color(0, 0.8, 0.984314, 1)
-shader_parameter/u_color_crater = Color(0.211765, 0.517647, 0.984314, 1)
-shader_parameter/u_color_outline = Color(0.0470588, 1, 1, 1)
-shader_parameter/u_outline_threshold = 0.02
-shader_parameter/u_crater_noise = SubResource("NoiseTexture2D_iygna")
-shader_parameter/u_noise_scale = 3.085
-shader_parameter/u_crater_threshold = 0.41
-
-[sub_resource type="SphereMesh" id="SphereMesh_ig7tw"]
-radius = 0.1
-height = 0.2
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xk4xt"]
-emission_enabled = true
-emission = Color(0, 1, 1, 1)
-emission_energy_multiplier = 16.0
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_xk4xt"]
-emission_shape = 1
-emission_sphere_radius = 0.1
-gravity = Vector3(0, 0, 0)
-
-[sub_resource type="SphereMesh" id="SphereMesh_iygna"]
-radius = 0.05
-height = 0.1
-radial_segments = 4
-rings = 1
+[sub_resource type="ViewportTexture" id="ViewportTexture_xk4xt"]
+viewport_path = NodePath("SubViewport")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7jktm"]
-albedo_color = Color(1, 0.890196, 0.490196, 1)
 emission_enabled = true
 emission = Color(0.849255, 0.904903, 0.998919, 1)
 emission_energy_multiplier = 4.0
 emission_on_uv2 = true
 grow = true
 
-[sub_resource type="Curve" id="Curve_fc0e3"]
-_data = [Vector2(0, 0), 0.0, 0.0273778, 0, 0, Vector2(0.502916, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+[sub_resource type="Curve" id="Curve_iygna"]
+_data = [Vector2(0, 0), 0.0, 6.20225, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.0561798), -5.56613, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_7jktm"]
-curve = SubResource("Curve_fc0e3")
+[sub_resource type="CurveTexture" id="CurveTexture_l80tk"]
+curve = SubResource("Curve_iygna")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fc0e3"]
 emission_shape = 2
@@ -145,8 +111,7 @@ emission_sphere_radius = 10.0
 gravity = Vector3(0, 0, 0)
 tangential_accel_min = 0.0999978
 tangential_accel_max = 5.0
-scale_over_velocity_max = 7.13
-scale_over_velocity_curve = SubResource("CurveTexture_7jktm")
+scale_curve = SubResource("CurveTexture_l80tk")
 
 [sub_resource type="SphereMesh" id="SphereMesh_7jktm"]
 radius = 0.25
@@ -154,17 +119,17 @@ height = 0.5
 radial_segments = 4
 rings = 1
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_vgtt4"]
-top_radius = 1.0
-bottom_radius = 1.0
-height = 10.0
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_iygna"]
+bounce = 1.0
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_xk4xt"]
-height = 10.0
-radius = 1.0
+[sub_resource type="SphereShape3D" id="SphereShape3D_iygna"]
+radius = 4.06497
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_vgtt4"]
-radius = 4.02908
+[sub_resource type="ViewportTexture" id="ViewportTexture_iygna"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_l80tk"]
+viewport_path = NodePath("SubViewport")
 
 [node name="Level1" type="Node3D"]
 
@@ -180,25 +145,16 @@ collision_layer = 2
 collision_mask = 0
 mesh_block_size = 32
 
-[node name="TestBall" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.95616, 4.48582, -0.639224)
-collision_layer = 4
-collision_mask = 5
-physics_material_override = SubResource("PhysicsMaterial_7jktm")
-script = ExtResource("1_7jktm")
+[node name="Platform" parent="." instance=ExtResource("4_iygna")]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestBall"]
-shape = SubResource("SphereShape3D_7dm0k")
+[node name="InPopup" parent="Platform" instance=ExtResource("5_xk4xt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.609123, 6.29826, -0.748749)
+texture = SubResource("ViewportTexture_xk4xt")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestBall"]
-material_override = SubResource("ShaderMaterial_l80tk")
-mesh = SubResource("SphereMesh_ig7tw")
-
-[node name="GPUParticles3D" type="GPUParticles3D" parent="TestBall"]
-material_override = SubResource("StandardMaterial3D_xk4xt")
-amount = 4
-process_material = SubResource("ParticleProcessMaterial_xk4xt")
-draw_pass_1 = SubResource("SphereMesh_iygna")
+[node name="Label" parent="Platform/InPopup/SubViewport/Control" index="0"]
+text = "jump: [wave amp=25.0 freq=5.0 connected=1]SPACE[/wave]
+move: [rainbow freq=0.5 sat=1.0 val=1.0 speed=0.5]WASD[/rainbow]"
+fit_content = true
 
 [node name="Player" parent="." instance=ExtResource("4_fc0e3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.60688, 6.38393, 1.96499)
@@ -208,7 +164,7 @@ collision_mask = 3
 [node name="StarsParticles" type="GPUParticles3D" parent="."]
 material_override = SubResource("StandardMaterial3D_7jktm")
 cast_shadow = 0
-amount = 32
+amount = 64
 lifetime = 10.0
 visibility_aabb = AABB(-500, -500, -500, 1000, 1000, 1000)
 local_coords = true
@@ -216,32 +172,46 @@ process_material = SubResource("ParticleProcessMaterial_fc0e3")
 draw_pass_1 = SubResource("SphereMesh_7jktm")
 
 [node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target")]
-transform = Transform3D(0.297458, 0, 0.954735, 0, 1, 0, -0.954735, 0, 0.297458, 21.7697, 3.26868, 1.07489)
+transform = Transform3D(-0.901953, 0, 0.431834, 0, 1, 0, -0.431834, 0, -0.901953, 20.2922, 8.34931, -10.595)
+fov = 90.0
+far = 100.0
 script = ExtResource("5_7jktm")
 target = NodePath("../Player")
-smoothing_speed = 0.1
+offset = Vector3(0, 4, 2)
+smoothing_speed = 0.01
 
-[node name="PlanetGravityParticles" type="GPUParticlesAttractorSphere3D" parent="."]
-radius = 7.0
-
-[node name="PlanetColliderParticles" type="GPUParticlesCollisionSphere3D" parent="."]
-radius = 4.34
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.802908, 0.594542, 0.0431045, -0.593687, 0.804065, -0.0318724, -0.0536083, -1.93553e-09, 0.998562, 0, 0, 0)
-mesh = SubResource("CylinderMesh_vgtt4")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
-collision_layer = 7
-collision_mask = 0
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
-transform = Transform3D(1, -2.96986e-08, 3.72529e-09, -1.99706e-10, 1, -5.35771e-12, 0, -7.00977e-11, 1, 0, 0, 0)
-shape = SubResource("CylinderShape3D_xk4xt")
-
-[node name="PlanetCollider" type="StaticBody3D" parent="."]
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
 collision_layer = 4
 collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_iygna")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="PlanetCollider"]
-shape = SubResource("SphereShape3D_vgtt4")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("SphereShape3D_iygna")
+
+[node name="Face" type="Decal" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.78866, -2.78239, 0.0125334)
+size = Vector3(1, 1.5, 1.5)
+texture_albedo = ExtResource("6_iygna")
+
+[node name="InPopup" parent="Face" instance=ExtResource("5_xk4xt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.267156, -1.26256, 0)
+texture = SubResource("ViewportTexture_iygna")
+
+[node name="Label" parent="Face/InPopup/SubViewport/Control" index="0"]
+text = "DEWDROPS!"
+
+[node name="Alien" parent="." instance=ExtResource("7_l80tk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.43863, 0, 0)
+
+[node name="InPopup" parent="Alien" instance=ExtResource("5_xk4xt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.986679, 0.8704, 0)
+texture = SubResource("ViewportTexture_l80tk")
+
+[node name="Label" parent="Alien/InPopup/SubViewport/Control" index="0"]
+text = "shoot: [pulse freq=1.0 color=#c9232760 ease=-2.0]Q[/pulse]"
+
+[editable path="Platform"]
+[editable path="Platform/InPopup"]
+[editable path="Face/InPopup"]
+[editable path="Alien"]
+[editable path="Alien/InPopup"]
